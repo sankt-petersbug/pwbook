@@ -25,6 +25,7 @@ import (
     "github.com/sankt-petersbug/pwbook/internal/store"
 )
 
+// NewRemoveCommand creates a cobra.command for remove command
 func NewRemoveCommand(pwbookStore store.Store) *cobra.Command {
     cmd := &cobra.Command{
         Use:   "remove [entry name]",

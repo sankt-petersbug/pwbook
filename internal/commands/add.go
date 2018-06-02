@@ -27,6 +27,7 @@ import (
     "github.com/sankt-petersbug/pwbook/internal/password"
 )
 
+// NewAddCommand creates a cobra.command for add command
 func NewAddCommand(pwbookStore store.Store) *cobra.Command {
     cmd := &cobra.Command{
         Use:   "add [entry name]",

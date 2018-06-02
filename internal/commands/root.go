@@ -21,6 +21,7 @@ import (
     "github.com/sankt-petersbug/pwbook/internal/store"
 )
 
+// NewPWBookCommand creates a root cobra.command and add subcommands
 func NewPWBookCommand(pwbookStore store.Store) *cobra.Command {
     cmd := &cobra.Command{
         Use:   "pwbook",

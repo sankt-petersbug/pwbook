@@ -23,12 +23,20 @@ import (
 )
 
 const (
+    // LowerLetters is the list of allowed lowercase letters.
     LowerLetters = "abcdefghijklmnopqrstuvwxyz"
+
+    // UpperLetters is the list of allowed uppercase letters.
     UpperLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+    // Digits is the list of allowed digits.
     Digits = "0123456789"
+
+    // Symbols is the list of allowed symbols.
     Symbols = "~!@#$%^&*()_+`-={}|[]\\:\"<>?,./"
 )
 
+// DefaultOptions is the options that will be used if no Options is provided
 var DefaultOptions = &Options{
     lowerLetters: true,
     upperLetters: true,
@@ -36,6 +44,7 @@ var DefaultOptions = &Options{
     symbols: true,
 }
 
+// Options contains information about the type of generated password
 type Options struct {
     lowerLetters, upperLetters, digits, symbols bool
 }
@@ -59,6 +68,7 @@ func makeCategories(opt *Options) [][]rune {
     return categories
 }
 
+// Generate create a password string with given length and options
 func Generate(length int, opt *Options) string {
     var buf bytes.Buffer
 

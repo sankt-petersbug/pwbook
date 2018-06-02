@@ -23,6 +23,7 @@ import (
     "github.com/asdine/storm"
 )
 
+// Entry holds information about name, password pair
 type Entry struct {
     Key string `storm:"id"`
     Value string
@@ -30,10 +31,12 @@ type Entry struct {
     ModifiedAt time.Time
 }
 
+// Store provides APIs to interact with database
 type Store struct {
     db *storm.DB
 }
 
+// Create create an entry and save it to store
 func (store Store) Create(key string, value string) (Entry, error) {
     entry := Entry{}
 
@@ -52,6 +55,7 @@ func (store Store) Create(key string, value string) (Entry, error) {
     return entry, err
 }
 
+// Update updates an entry's value
 func (store Store) Update(key string, value string) (Entry, error) {
     entry := Entry{Key: key, Value: value, ModifiedAt: time.Now()}
     err := store.db.Update(&entry)
@@ -59,6 +63,7 @@ func (store Store) Update(key string, value string) (Entry, error) {
     return entry, err
 }
 
+// List returns all stored entries
 func (store Store) List() ([]Entry, error) {
     var entries []Entry
 
@@ -67,6 +72,7 @@ func (store Store) List() ([]Entry, error) {
     return entries, err
 }
 
+// Delete deltes an entry from the store
 func (store Store) Delete(key string) error {
     entry := Entry{Key: key}
 
@@ -75,10 +81,12 @@ func (store Store) Delete(key string) error {
     return err
 }
 
+// Close closes internalDB
 func (store Store) Close() error {
     return store.db.Close()
 }
 
+// NewStore creates a new store with given filepath
 func NewStore(path string) (Store, error) {
     store := Store{}
 

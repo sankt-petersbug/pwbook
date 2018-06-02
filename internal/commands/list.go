@@ -25,6 +25,7 @@ import (
     "github.com/sankt-petersbug/pwbook/internal/store"
 )
 
+// NewListCommand creates a cobra.command for list command
 func NewListCommand(pwbookStore store.Store) *cobra.Command {
     cmd := &cobra.Command{
         Use:   "list",
@@ -43,9 +44,9 @@ func NewListCommand(pwbookStore store.Store) *cobra.Command {
 
             for _, entry := range entries {
                 d := time.Since(entry.ModifiedAt)
-                days_old := int(d.Hours() / 24)
+                daysOld := int(d.Hours() / 24)
 
-                fmt.Printf("%-20s%-20s%d days old\n", entry.Key, entry.Value, days_old)
+                fmt.Printf("%-20s%-20s%d days old\n", entry.Key, entry.Value, daysOld)
             }
             fmt.Println(divider)
             fmt.Printf("Total %d entries\n", len(entries))

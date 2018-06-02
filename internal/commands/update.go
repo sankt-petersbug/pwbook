@@ -27,13 +27,14 @@ import (
     "github.com/sankt-petersbug/pwbook/internal/password"
 )
 
+// NewUpdateCommand creates a cobra.command for update command
 func NewUpdateCommand(pwbookStore store.Store) *cobra.Command {
     cmd := &cobra.Command{
         Use:   "update [entry name]",
         Short: "Update password of an existing entry",
         RunE: func(cmd *cobra.Command, args []string) error {
             if len(args) == 0 {
-                return errors.New("add needs a name for the command")
+                return errors.New("update needs a name for the command")
             }
 
             key := args[0]
