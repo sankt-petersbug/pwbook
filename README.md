@@ -17,25 +17,61 @@ your `$GOBIN` path.
 
 ### Usage
 
-Add a new entry with randomly generated password
-
 ```sh
-$ pwbook add www.github.com
+$ pwbook
+
+a CLI for managing passwords like Sankt Petersbug does
+
+Usage:
+  pwbook [command]
+
+Available Commands:
+  add         Add a new entry
+  help        Help about any command
+  list        List avilable entries
+  remove      Removes an entry
+  update      Update password of an existing entry
+
+Flags:
+  -h, --help   help for pwbook
+
+Use "pwbook [command] --help" for more information about a command.
+
 ```
 
-List available entries
+See alo pwbook --help
+
+#### Add
+
+Creates a new entry
+
+```sh
+$ pwbook add "Entry name"
+```
+
+#### List
+
+List avilable entries
 
 ```sh
 $ pwbook list
 ```
 
-Update existing password
+#### Update
+
+Update password of an existing entry
 
 ```sh
-$ pwbook update www.github.com
+$ pwbook update "Entry name"
 ```
 
-See alo pwbook --help
+#### Remove
+
+Removes an existing entry
+
+```sh
+$ pwbook remove "Entry name"
+```
 
 ### TODO
 
