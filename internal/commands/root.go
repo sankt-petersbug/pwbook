@@ -31,6 +31,7 @@ func NewPWBookCommand(pwbookStore store.Store) *cobra.Command {
         NewAddCommand(pwbookStore),
         NewListCommand(pwbookStore),
         NewUpdateCommand(pwbookStore),
+        NewRemoveCommand(pwbookStore),
     )
 
     return cmd

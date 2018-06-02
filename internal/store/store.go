@@ -67,6 +67,14 @@ func (store Store) List() ([]Entry, error) {
     return entries, err
 }
 
+func (store Store) Delete(key string) error {
+    entry := Entry{Key: key}
+
+    err := store.db.DeleteStruct(&entry)
+
+    return err
+}
+
 func (store Store) Close() error {
     return store.db.Close()
 }

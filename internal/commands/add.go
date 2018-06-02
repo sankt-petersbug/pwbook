@@ -32,8 +32,8 @@ func NewAddCommand(pwbookStore store.Store) *cobra.Command {
         Use:   "add [entry name]",
         Short: "Add a new entry",
         RunE: func(cmd *cobra.Command, args []string) error {
-            if err := validateAddCommandArgs(args); err != nil {
-                return err
+            if len(args) == 0 {
+                return errors.New("add needs a name for the command")
             }
 
             key := args[0]
@@ -58,12 +58,4 @@ func NewAddCommand(pwbookStore store.Store) *cobra.Command {
     }
 
     return cmd
-}
-
-func validateAddCommandArgs(args []string) error {
-    if len(args) == 0 {
-        return errors.New("add needs a name for the command")
-    }
-
-    return nil
 }
