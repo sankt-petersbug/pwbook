@@ -44,7 +44,7 @@ func NewRemoveCommand(pwbookStore store.Store) *cobra.Command {
 
             fmt.Println("Entry Removed")
             fmt.Println(divider)
-            fmt.Printf("Name:       %s\n", key)
+            fmt.Printf("Name: %s\n", key)
 
             return nil
         },
