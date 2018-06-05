@@ -36,7 +36,7 @@ Total {{. | len}} entries
 `
 
 // NewCommand creates a cobra.command for list command
-func NewCommand(pwbookStore store.Store) *cobra.Command {
+func NewCommand(pwbookStore *store.Store) *cobra.Command {
     cmd := &cobra.Command{
         Use:   "list",
         Short: "List avilable entries",

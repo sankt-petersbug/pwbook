@@ -34,7 +34,7 @@ Created At: {{.CreatedAt.Format "02 Jan 06 15:04 MST"}}
 `
 
 // NewCommand creates a cobra.command for add command
-func NewCommand(pwbookStore store.Store) *cobra.Command {
+func NewCommand(pwbookStore *store.Store) *cobra.Command {
     cmd := &cobra.Command{
         Use:   "add [entry name]",
         Short: "Add a new entry",

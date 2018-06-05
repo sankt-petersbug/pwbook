@@ -31,7 +31,7 @@ Name: {{.Key}}
 `
 
 // NewCommand creates a cobra.command for remove command
-func NewCommand(pwbookStore store.Store) *cobra.Command {
+func NewCommand(pwbookStore *store.Store) *cobra.Command {
     cmd := &cobra.Command{
         Use:   "remove [entry name]",
         Short: "Removes an entry",

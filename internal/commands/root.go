@@ -26,7 +26,7 @@ import (
 )
 
 // NewPWBookCommand creates a root cobra.command and add subcommands
-func NewPWBookCommand(pwbookStore store.Store) *cobra.Command {
+func NewPWBookCommand(pwbookStore *store.Store) *cobra.Command {
     cmd := &cobra.Command{
         Use:   "pwbook",
         Short: "a CLI for managing passwords like Sankt Petersbug does",

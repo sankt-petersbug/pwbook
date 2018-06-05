@@ -52,7 +52,7 @@ func main() {
     }
     defer pwbookStore.Close()
 
-    cmd := commands.NewPWBookCommand(pwbookStore)
+    cmd := commands.NewPWBookCommand(&pwbookStore)
     if err := cmd.Execute(); err != nil {
         // os.Exit do not honor deferred calls
         pwbookStore.Close()

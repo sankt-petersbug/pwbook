@@ -34,7 +34,7 @@ Updated At: {{.ModifiedAt.Format "02 Jan 06 15:04 MST"}}
 `
 
 // NewCommand creates a cobra.command for update command
-func NewCommand(pwbookStore store.Store) *cobra.Command {
+func NewCommand(pwbookStore *store.Store) *cobra.Command {
     cmd := &cobra.Command{
         Use:   "update [entry name]",
         Short: "Update password of an existing entry",
