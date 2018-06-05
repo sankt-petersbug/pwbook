@@ -60,12 +60,14 @@ func TestGenerateWithLength(t *testing.T) {
     }
 
     for _, tc := range testCases {
-        s := Generate(tc.length, nil)
-        length := len(s)
+        t.Run(tc.name, func(t *testing.T) {
+            s := Generate(tc.length, nil)
+            length := len(s)
 
-        if length != tc.expectedLength {
-            t.Errorf("[%s] expected: %d, actual: %d", tc.name, tc.expectedLength, length)
-        }
+            if length != tc.expectedLength {
+                t.Errorf("[%s] expected: %d, actual: %d", tc.name, tc.expectedLength, length)
+            }
+        })
     }
 }
 
@@ -103,11 +105,13 @@ func TestGenerateWithOptions(t *testing.T) {
     }
 
     for _, tc := range testCases {
-        s := Generate(10, &tc.options)
+        t.Run(tc.name, func(t *testing.T) {
+            s := Generate(10, &tc.options)
 
-        if !containedIn(s, tc.allowed) {
-            t.Errorf("[%s] %s is not contained in %s", tc.name, s, tc.allowed)
-        }
+            if !containedIn(s, tc.allowed) {
+                t.Errorf("[%s] %s is not contained in %s", tc.name, s, tc.allowed)
+            }
+        })
     }
 }
 
