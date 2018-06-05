@@ -14,19 +14,29 @@
  limitations under the License.
 */
 
-package commands
+package list
 
 import (
     "fmt"
-    "time"
-    "strings"
 
     "github.com/spf13/cobra"
     "github.com/sankt-petersbug/pwbook/internal/store"
+    "github.com/sankt-petersbug/pwbook/internal/formatter"
 )
 
-// NewListCommand creates a cobra.command for list command
-func NewListCommand(pwbookStore store.Store) *cobra.Command {
+const template = `Name\tPassword\tLast Updated
+----------------------------------------------------
+{{- range .}}
+{{.Key}}\t{{.Value}}\t{{.ModifiedSince}} days old
+{{- end}}
+{{- if .}}
+----------------------------------------------------
+{{- end}}
+Total {{. | len}} entries
+`
+
+// NewCommand creates a cobra.command for list command
+func NewCommand(pwbookStore store.Store) *cobra.Command {
     cmd := &cobra.Command{
         Use:   "list",
         Short: "List avilable entries",
@@ -36,20 +46,13 @@ func NewListCommand(pwbookStore store.Store) *cobra.Command {
                 return err
             }
 
-            headers := fmt.Sprintf("%-20s%-20s%s", "Name", "Password", "Last Updated")
-            divider := strings.Repeat("-", len(headers))
-
-            fmt.Println(headers)
-            fmt.Println(divider)
-
-            for _, entry := range entries {
-                d := time.Since(entry.ModifiedAt)
-                daysOld := int(d.Hours() / 24)
-
-                fmt.Printf("%-20s%-20s%d days old\n", entry.Key, entry.Value, daysOld)
+            c := formatter.Context{"ListEntires", template}
+            out, err := c.Format(entries)
+            if err != nil {
+                return err
             }
-            fmt.Println(divider)
-            fmt.Printf("Total %d entries\n", len(entries))
+
+            fmt.Println(out)
 
             return nil
         },

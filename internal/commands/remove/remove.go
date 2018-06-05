@@ -14,25 +14,30 @@
  limitations under the License.
 */
 
-package commands
+package remove
 
 import (
     "fmt"
     "errors"
-    "strings"
 
     "github.com/spf13/cobra"
     "github.com/sankt-petersbug/pwbook/internal/store"
+    "github.com/sankt-petersbug/pwbook/internal/formatter"
 )
 
-// NewRemoveCommand creates a cobra.command for remove command
-func NewRemoveCommand(pwbookStore store.Store) *cobra.Command {
+const template = `Entry Removed
+----------------------------------------------------
+Name: {{.Key}}
+`
+
+// NewCommand creates a cobra.command for remove command
+func NewCommand(pwbookStore store.Store) *cobra.Command {
     cmd := &cobra.Command{
         Use:   "remove [entry name]",
         Short: "Removes an entry",
         RunE: func(cmd *cobra.Command, args []string) error {
-            if len(args) == 0 {
-                return errors.New("remove needs a name for the command")
+            if err := validate(args); err != nil {
+                return err
             }
 
             key := args[0]
@@ -41,15 +46,25 @@ func NewRemoveCommand(pwbookStore store.Store) *cobra.Command {
                 return err
             }
 
-            divider := strings.Repeat("-", 31)
+            c := formatter.Context{"RemoveEntry", template}
+            out, err := c.Format(store.Entry{Key: key})
+            if err != nil {
+                return err
+            }
 
-            fmt.Println("Entry Removed")
-            fmt.Println(divider)
-            fmt.Printf("Name: %s\n", key)
+            fmt.Println(out)
 
             return nil
         },
     }
 
     return cmd
+}
+
+func validate(args []string) error {
+    if len(args) == 1 {
+        return nil
+    }
+
+    return errors.New("remove needs a name for the command")
 }

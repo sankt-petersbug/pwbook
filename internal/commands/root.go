@@ -19,6 +19,10 @@ package commands
 import (
     "github.com/spf13/cobra"
     "github.com/sankt-petersbug/pwbook/internal/store"
+    "github.com/sankt-petersbug/pwbook/internal/commands/add"
+    "github.com/sankt-petersbug/pwbook/internal/commands/list"
+    "github.com/sankt-petersbug/pwbook/internal/commands/update"
+    "github.com/sankt-petersbug/pwbook/internal/commands/remove"
 )
 
 // NewPWBookCommand creates a root cobra.command and add subcommands
@@ -29,10 +33,10 @@ func NewPWBookCommand(pwbookStore store.Store) *cobra.Command {
     }
 
     cmd.AddCommand(
-        NewAddCommand(pwbookStore),
-        NewListCommand(pwbookStore),
-        NewUpdateCommand(pwbookStore),
-        NewRemoveCommand(pwbookStore),
+        add.NewCommand(pwbookStore),
+        list.NewCommand(pwbookStore),
+        update.NewCommand(pwbookStore),
+        remove.NewCommand(pwbookStore),
     )
 
     return cmd

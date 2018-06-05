@@ -14,49 +14,62 @@
  limitations under the License.
 */
 
-package commands
+package update
 
 import (
     "fmt"
-    "time"
     "errors"
-    "strings"
 
     "github.com/spf13/cobra"
     "github.com/sankt-petersbug/pwbook/internal/store"
     "github.com/sankt-petersbug/pwbook/internal/password"
+    "github.com/sankt-petersbug/pwbook/internal/formatter"
 )
 
-// NewAddCommand creates a cobra.command for add command
-func NewAddCommand(pwbookStore store.Store) *cobra.Command {
+const template = `Entry Updated
+----------------------------------------------------
+Name: {{.Key}}
+Password: {{.Value}}
+Updated At: {{.ModifiedAt.Format "02 Jan 06 15:04 MST"}}
+`
+
+// NewCommand creates a cobra.command for update command
+func NewCommand(pwbookStore store.Store) *cobra.Command {
     cmd := &cobra.Command{
-        Use:   "add [entry name]",
-        Short: "Add a new entry",
+        Use:   "update [entry name]",
+        Short: "Update password of an existing entry",
         RunE: func(cmd *cobra.Command, args []string) error {
-            if len(args) == 0 {
-                return errors.New("add needs a name for the command")
+            if err := validate(args); err != nil {
+                return err
             }
 
             key := args[0]
             value := password.Generate(10, nil)
 
-            entry, err := pwbookStore.Create(key, value)
+            entry, err := pwbookStore.Update(key, value)
             if err != nil {
                 return err
             }
 
-            datestr := entry.CreatedAt.Format(time.RFC822)
-            divider := strings.Repeat("-", 31)
+            c := formatter.Context{"UpdateEntry", template}
+            out, err := c.Format(entry)
+            if err != nil {
+                return err
+            }
 
-            fmt.Println("Entry Added")
-            fmt.Println(divider)
-            fmt.Printf("Name:       %s\n", entry.Key)
-            fmt.Printf("Password:   %s\n", entry.Value)
-            fmt.Printf("Updated At: %s\n", datestr)
+            fmt.Println(out)
 
             return nil
         },
     }
 
     return cmd
+}
+
+func validate(args []string) error {
+    if len(args) == 1 {
+        return nil
+    }
+
+    return errors.New("update needs a name for the command")
 }
