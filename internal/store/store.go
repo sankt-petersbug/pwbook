@@ -31,16 +31,22 @@ type Entry struct {
     ModifiedAt time.Time
 }
 
+// ModifiedSince returns days elapsed since modifiedAt
+func (e *Entry) ModifiedSince() int {
+    d := time.Since(e.ModifiedAt)
+    return int(d.Hours() / 24)
+}
+
 // Store provides APIs to interact with database
 type Store struct {
     db *storm.DB
 }
 
 // Create create an entry and save it to store
-func (store Store) Create(key string, value string) (Entry, error) {
+func (s *Store) Create(key string, value string) (Entry, error) {
     entry := Entry{}
 
-    if err := store.db.One("Key", key, &entry); err == nil {
+    if err := s.db.One("Key", key, &entry); err == nil {
         return entry, errors.New("Already exists")
     }
 
@@ -50,52 +56,52 @@ func (store Store) Create(key string, value string) (Entry, error) {
     entry.CreatedAt = now
     entry.ModifiedAt = now
 
-    err := store.db.Save(&entry)
+    err := s.db.Save(&entry)
 
     return entry, err
 }
 
 // Update updates an entry's value
-func (store Store) Update(key string, value string) (Entry, error) {
+func (s *Store) Update(key string, value string) (Entry, error) {
     entry := Entry{Key: key, Value: value, ModifiedAt: time.Now()}
-    err := store.db.Update(&entry)
+    err := s.db.Update(&entry)
 
     return entry, err
 }
 
 // List returns all stored entries
-func (store Store) List() ([]Entry, error) {
+func (s *Store) List() ([]Entry, error) {
     var entries []Entry
 
-    err := store.db.All(&entries)
+    err := s.db.All(&entries)
 
     return entries, err
 }
 
 // Delete deltes an entry from the store
-func (store Store) Delete(key string) error {
+func (s *Store) Delete(key string) error {
     entry := Entry{Key: key}
 
-    err := store.db.DeleteStruct(&entry)
+    err := s.db.DeleteStruct(&entry)
 
     return err
 }
 
 // Close closes internalDB
-func (store Store) Close() error {
-    return store.db.Close()
+func (s *Store) Close() error {
+    return s.db.Close()
 }
 
 // NewStore creates a new store with given filepath
 func NewStore(path string) (Store, error) {
-    store := Store{}
+    s := Store{}
 
     db, err := storm.Open(path)
     if err != nil {
-        return store, err
+        return s, err
     }
 
-    store.db = db
+    s.db = db
 
-    return store, nil
+    return s, nil
 }
