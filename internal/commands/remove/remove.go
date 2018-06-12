@@ -17,12 +17,12 @@
 package remove
 
 import (
-    "fmt"
-    "errors"
+	"errors"
+	"fmt"
 
-    "github.com/spf13/cobra"
-    "github.com/sankt-petersbug/pwbook/internal/store"
-    "github.com/sankt-petersbug/pwbook/internal/formatter"
+	"github.com/sankt-petersbug/pwbook/internal/formatter"
+	"github.com/sankt-petersbug/pwbook/internal/store"
+	"github.com/spf13/cobra"
 )
 
 const template = `Entry Removed
@@ -32,39 +32,39 @@ Name: {{.Key}}
 
 // NewCommand creates a cobra.command for remove command
 func NewCommand(pwbookStore *store.Store) *cobra.Command {
-    cmd := &cobra.Command{
-        Use:   "remove [entry name]",
-        Short: "Removes an entry",
-        RunE: func(cmd *cobra.Command, args []string) error {
-            if err := validate(args); err != nil {
-                return err
-            }
+	cmd := &cobra.Command{
+		Use:   "remove [entry name]",
+		Short: "Removes an entry",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if err := validate(args); err != nil {
+				return err
+			}
 
-            key := args[0]
+			key := args[0]
 
-            if err := pwbookStore.Delete(key); err != nil {
-                return err
-            }
+			if err := pwbookStore.Delete(key); err != nil {
+				return err
+			}
 
-            c := formatter.Context{"RemoveEntry", template}
-            out, err := c.Format(store.Entry{Key: key})
-            if err != nil {
-                return err
-            }
+			c := formatter.Context{"RemoveEntry", template}
+			out, err := c.Format(store.Entry{Key: key})
+			if err != nil {
+				return err
+			}
 
-            fmt.Println(out)
+			fmt.Println(out)
 
-            return nil
-        },
-    }
+			return nil
+		},
+	}
 
-    return cmd
+	return cmd
 }
 
 func validate(args []string) error {
-    if len(args) == 1 {
-        return nil
-    }
+	if len(args) == 1 {
+		return nil
+	}
 
-    return errors.New("remove needs a name for the command")
+	return errors.New("remove needs a name for the command")
 }
