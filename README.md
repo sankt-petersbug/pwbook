@@ -77,5 +77,5 @@ $ pwbook remove "Entry name"
 
 - limit entry name and password length
 - filter list by name, password age
-- insert, update flags: ensure strong password, password requirements (letters, digits, symbols)
+- tag or groups
 - encryption with master password

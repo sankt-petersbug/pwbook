@@ -17,9 +17,12 @@
 package password
 
 import (
+    "fmt"
     "bytes"
     "math/rand"
     "time"
+    "strings"
+    "errors"
 )
 
 const (
@@ -68,7 +71,7 @@ func makeCategories(opt *Options) [][]rune {
     return categories
 }
 
-// Generate create a password string with given length and options
+// Generate a password string with given length and options
 func Generate(length int, opt *Options) string {
     var buf bytes.Buffer
 
@@ -89,4 +92,38 @@ func Generate(length int, opt *Options) string {
     }
 
     return buf.String()
+}
+
+func isStrong(s string) bool {
+    if !strings.ContainsAny(s, LowerLetters) {
+        return false
+    }
+    if !strings.ContainsAny(s, UpperLetters) {
+        return false
+    }
+    if !strings.ContainsAny(s, Digits) {
+        return false
+    }
+    if !strings.ContainsAny(s, Symbols) {
+        return false
+    }
+
+    return true
+}
+
+// GenerateStrong generate a password that satisfy default password policy
+func GenerateStrong() (string, error) {
+    const limit = 10000
+
+    for i := 0; i < limit; i++ {
+        s := Generate(10, nil)
+
+        if isStrong(s) {
+            return s, nil
+        }
+    }
+
+    msg := fmt.Sprintf("Failed to generate a strong password during %d tries", limit)
+
+    return "", errors.New(msg)
 }

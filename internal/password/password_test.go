@@ -129,3 +129,56 @@ func TestGenerate(t *testing.T) {
     }
 }
 
+func TestIsStrong(t *testing.T) {
+    testCases := []struct {
+        name string
+        s string
+        expected bool
+    }{
+        {
+            name: "empty",
+            s: "",
+            expected: false,
+        },
+        {
+            name: "strong password",
+            s: "lowerUpper0!",
+            expected: true,
+        },
+    }
+
+    for _, tc := range testCases {
+        t.Run(tc.name, func(t *testing.T) {
+            result := isStrong(tc.s)
+
+            if result != tc.expected {
+                t.Errorf("expected result: %v, saw: %v", tc.expected, result)
+            }
+        })
+    }
+}
+
+func TestGenerateStrong(t *testing.T) {
+    n := int(10e3)
+
+    for i := 0; i < n; i++ {
+        s, err := GenerateStrong()
+
+        if err != nil {
+            t.Fatal(err)
+        }
+
+        if !strings.ContainsAny(s, LowerLetters) {
+            t.Fatalf("Generated string `%s` doesn't have a lowercase letter", s)
+        }
+        if !strings.ContainsAny(s, UpperLetters) {
+            t.Fatalf("Generated string `%s` doesn't have a uppercase letter", s)
+        }
+        if !strings.ContainsAny(s, Digits) {
+            t.Fatalf("Generated string `%s` doesn't have a digit", s)
+        }
+        if !strings.ContainsAny(s, Symbols) {
+            t.Fatalf("Generated string \"%s\" doesn't have a symbol", s)
+        }
+    }
+}

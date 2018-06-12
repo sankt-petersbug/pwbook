@@ -44,7 +44,10 @@ func NewCommand(pwbookStore *store.Store) *cobra.Command {
             }
 
             key := args[0]
-            value := password.Generate(10, nil)
+            value, err := password.GenerateStrong()
+            if err != nil {
+                return err
+            }
 
             entry, err := pwbookStore.Create(key, value)
             if err != nil {
