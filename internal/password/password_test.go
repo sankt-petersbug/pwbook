@@ -152,16 +152,16 @@ func TestGenerateStrong(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		if !strings.ContainsAny(s, LowerLetters) {
+		if !strings.ContainsAny(s, "abcdefghijklmnopqrstuvwxyz") {
 			t.Fatalf("Generated string `%s` doesn't have a lowercase letter", s)
 		}
-		if !strings.ContainsAny(s, UpperLetters) {
+		if !strings.ContainsAny(s, "ABCDEFGHIJKLMNOPQRSTUVWXYZ") {
 			t.Fatalf("Generated string `%s` doesn't have a uppercase letter", s)
 		}
-		if !strings.ContainsAny(s, Digits) {
+		if !strings.ContainsAny(s, "0123456789") {
 			t.Fatalf("Generated string `%s` doesn't have a digit", s)
 		}
-		if !strings.ContainsAny(s, Symbols) {
+		if !strings.ContainsAny(s, "~!@#$%^&*()_+`-={}|[]\\:\"<>?,./") {
 			t.Fatalf("Generated string \"%s\" doesn't have a symbol", s)
 		}
 	}
