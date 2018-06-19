@@ -76,6 +76,7 @@ $ pwbook remove "Entry name"
 ### TODO
 
 - limit entry name and password length
-- filter list by name, password age
+- filter list by name(or use grep?), password age
 - tag or groups
 - encryption with master password
+- security questions
