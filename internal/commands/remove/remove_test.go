@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/sankt-petersbug/pwbook/internal/formatter"
+	"github.com/sankt-petersbug/pwbook/internal/store"
 )
 
 func TestTemplate(t *testing.T) {
