@@ -6,22 +6,22 @@ import (
 
 func TestContextFormatSuccess(t *testing.T) {
 	testCases := []struct {
-		name          string
-		template      string
-		data          interface{}
+		name     string
+		template string
+		data     interface{}
 		expected string
 	}{
 		{
-			name:          "Simple template",
-			template:      "Simple template with name {{.}}",
-			data:          "YO!",
-			expected:      "Simple template with name YO!",
+			name:     "Simple template",
+			template: "Simple template with name {{.}}",
+			data:     "YO!",
+			expected: "Simple template with name YO!",
 		},
 		{
-			name:          "Template with tabs",
-			template:      "Template\twith\ttabs",
-			data:          nil,
-			expected:      "Template            with                tabs",
+			name:     "Template with tabs",
+			template: "Template\twith\ttabs",
+			data:     nil,
+			expected: "Template            with                tabs",
 		},
 	}
 
@@ -43,18 +43,18 @@ func TestContextFormatSuccess(t *testing.T) {
 
 func TestContextFormatFail(t *testing.T) {
 	testCases := []struct {
-		name          string
-		template      string
-		data          interface{}
+		name     string
+		template string
+		data     interface{}
 	}{
 		{
-			name:          "Invalid template",
-			template:      "This template is not {{ valid",
+			name:     "Invalid template",
+			template: "This template is not {{ valid",
 		},
 		{
-			name:          "Invalid data",
-			template:      "Template requires {{.Name}} Name attribute",
-			data:          "This does not have Name attribute",
+			name:     "Invalid data",
+			template: "Template requires {{.Name}} Name attribute",
+			data:     "This does not have Name attribute",
 		},
 	}
 

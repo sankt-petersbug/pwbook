@@ -21,7 +21,7 @@ func NewCommand(pwbookStore *store.Store) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "update [entry name]",
 		Short: "Update password of an existing entry",
-		Args: cobra.ExactArgs(1),
+		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			key := args[0]
 

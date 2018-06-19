@@ -21,7 +21,7 @@ func NewCommand(pwbookStore *store.Store) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "add [entry name]",
 		Short: "Add a new entry",
-		Args: cobra.ExactArgs(1),
+		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			key := args[0]
 
