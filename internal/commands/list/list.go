@@ -24,6 +24,7 @@ func NewCommand(pwbookStore *store.Store) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list",
 		Short: "List avilable entries",
+		Args: cobra.NoArgs,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			entries, err := pwbookStore.List()
 			if err != nil {

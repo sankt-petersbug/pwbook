@@ -1,7 +1,6 @@
 package update
 
 import (
-	"errors"
 	"fmt"
 
 	"github.com/sankt-petersbug/pwbook/internal/formatter"
@@ -22,12 +21,10 @@ func NewCommand(pwbookStore *store.Store) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "update [entry name]",
 		Short: "Update password of an existing entry",
+		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			if err := validate(args); err != nil {
-				return err
-			}
-
 			key := args[0]
+
 			value, err := password.GenerateStrong()
 			if err != nil {
 				return err
@@ -51,12 +48,4 @@ func NewCommand(pwbookStore *store.Store) *cobra.Command {
 	}
 
 	return cmd
-}
-
-func validate(args []string) error {
-	if len(args) == 1 {
-		return nil
-	}
-
-	return errors.New("update needs a name for the command")
 }
