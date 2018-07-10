@@ -1,4 +1,4 @@
-package store
+package pwbook
 
 import (
 	"errors"
@@ -7,34 +7,28 @@ import (
 	"github.com/asdine/storm"
 )
 
-// Entry holds information about name, password pair
-type Entry struct {
-	Key        string `storm:"id"`
-	Value      string
-	CreatedAt  time.Time
-	ModifiedAt time.Time
+// Store represents the DataStore
+type Store interface {
+	Create(key string, value string) (Entry, error)
+	List() ([]Entry, error)
+	Remove(key string) error
+	Update(key string, value string) (Entry, error)
 }
 
-// ModifiedSince returns days elapsed since modifiedAt
-func (e *Entry) ModifiedSince() int {
-	d := time.Since(e.ModifiedAt)
-	return int(d.Hours() / 24)
-}
-
-// Store provides APIs to interact with database
-type Store struct {
+// PWBookStore is an instance of Store
+type PWBookStore struct {
 	db *storm.DB
 }
 
 // Create an entry and save it to store
-func (s *Store) Create(key string, value string) (Entry, error) {
+func (s *PWBookStore) Create(key string, value string) (Entry, error) {
 	entry := Entry{}
 
 	if err := s.db.One("Key", key, &entry); err == nil {
 		return entry, errors.New("Already exists")
 	}
 
-	now := time.Now()
+	now := time.Now().UTC()
 	entry.Key = key
 	entry.Value = value
 	entry.CreatedAt = now
@@ -46,7 +40,7 @@ func (s *Store) Create(key string, value string) (Entry, error) {
 }
 
 // Update an entry's value
-func (s *Store) Update(key string, value string) (Entry, error) {
+func (s *PWBookStore) Update(key string, value string) (Entry, error) {
 	entry := Entry{Key: key, Value: value, ModifiedAt: time.Now()}
 	err := s.db.Update(&entry)
 
@@ -54,7 +48,7 @@ func (s *Store) Update(key string, value string) (Entry, error) {
 }
 
 // List all stored entries
-func (s *Store) List() ([]Entry, error) {
+func (s *PWBookStore) List() ([]Entry, error) {
 	var entries []Entry
 
 	err := s.db.All(&entries)
@@ -62,8 +56,8 @@ func (s *Store) List() ([]Entry, error) {
 	return entries, err
 }
 
-// Delete an entry from the store
-func (s *Store) Delete(key string) error {
+// Remove an entry from the store
+func (s *PWBookStore) Remove(key string) error {
 	entry := Entry{Key: key}
 
 	err := s.db.DeleteStruct(&entry)
@@ -72,13 +66,13 @@ func (s *Store) Delete(key string) error {
 }
 
 // Close internalDB
-func (s *Store) Close() error {
+func (s *PWBookStore) Close() error {
 	return s.db.Close()
 }
 
-// NewStore initialize a store with given filepath
-func NewStore(path string) (Store, error) {
-	s := Store{}
+// NewPWBookStore initialize a store with given filepath
+func NewPWBookStore(path string) (PWBookStore, error) {
+	s := PWBookStore{}
 
 	db, err := storm.Open(path)
 	if err != nil {
