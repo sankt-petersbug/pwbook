@@ -19,7 +19,7 @@ func TestWrtieSuccess(t *testing.T) {
 	testCases := []struct {
 		name     string
 		template string
-		loc *time.Location
+		loc      *time.Location
 		data     interface{}
 		expected string
 	}{
@@ -36,10 +36,10 @@ func TestWrtieSuccess(t *testing.T) {
 			expected: "Template            with                tabs",
 		},
 		{
-			name: "Location",
+			name:     "Location",
 			template: `Datetime {{(.Data.In .Location).Format "02 Jan 06 15:04 MST"}}`,
-			loc: getLocation("America/Chicago"),
-			data: time.Date(2018, time.January, 1, 1, 0, 0, 0, time.UTC),
+			loc:      getLocation("America/Chicago"),
+			data:     time.Date(2018, time.January, 1, 1, 0, 0, 0, time.UTC),
 			expected: "Datetime 31 Dec 17 19:00 CST",
 		},
 	}
@@ -49,9 +49,9 @@ func TestWrtieSuccess(t *testing.T) {
 			var buf bytes.Buffer
 
 			f := Formatter{
-				Name: tc.name,
+				Name:     tc.name,
 				Template: tc.template,
-				Output: &buf,
+				Output:   &buf,
 				Location: tc.loc,
 			}
 			if err := f.Write(tc.data); err != nil {
@@ -87,9 +87,9 @@ func TestWriteErrors(t *testing.T) {
 			var buf bytes.Buffer
 
 			f := Formatter{
-				Name: tc.name,
+				Name:     tc.name,
 				Template: tc.template,
-				Output: &buf,
+				Output:   &buf,
 			}
 			if err := f.Write(tc.data); err == nil {
 				t.Error("expected an error, but got nil")

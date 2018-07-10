@@ -8,8 +8,8 @@ import (
 	"time"
 )
 
-type Payload struct {
-	Data interface{}
+type payload struct {
+	Data     interface{}
 	Location *time.Location
 }
 
@@ -28,8 +28,8 @@ func (f *Formatter) Write(data interface{}) error {
 		return err
 	}
 
-	p := Payload{
-		Data: data,
+	p := payload{
+		Data:     data,
 		Location: f.Location,
 	}
 	tw := tabwriter.NewWriter(f.Output, 20, 1, 3, ' ', 0)

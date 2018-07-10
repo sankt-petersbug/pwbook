@@ -42,8 +42,8 @@ func TestNewUpdateCommandErrors(t *testing.T) {
 			var buf bytes.Buffer
 
 			ctx := pwbook.Context{
-				Store: &FakeStore{UpdateFunc: tc.updateFunc}, 
-				Output: &buf,
+				Store:    &FakeStore{UpdateFunc: tc.updateFunc},
+				Output:   &buf,
 				Location: nil,
 			}
 
@@ -95,8 +95,8 @@ Updated At: 01 Jan 18 01:00 UTC
 			var buf bytes.Buffer
 
 			ctx := pwbook.Context{
-				Store: &FakeStore{UpdateFunc: tc.updateFunc}, 
-				Output: &buf,
+				Store:    &FakeStore{UpdateFunc: tc.updateFunc},
+				Output:   &buf,
 				Location: time.UTC,
 			}
 

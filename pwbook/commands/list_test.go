@@ -38,8 +38,8 @@ func TestNewListCommandError(t *testing.T) {
 			var buf bytes.Buffer
 
 			ctx := pwbook.Context{
-				Store: &FakeStore{ListFunc: tc.listFunc}, 
-				Output: &buf,
+				Store:    &FakeStore{ListFunc: tc.listFunc},
+				Output:   &buf,
 				Location: nil,
 			}
 
@@ -101,8 +101,8 @@ Total 2 entries
 			var buf bytes.Buffer
 
 			ctx := pwbook.Context{
-				Store: &FakeStore{ListFunc: tc.listFunc}, 
-				Output: &buf,
+				Store:    &FakeStore{ListFunc: tc.listFunc},
+				Output:   &buf,
 				Location: nil,
 			}
 

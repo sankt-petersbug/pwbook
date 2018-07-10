@@ -15,13 +15,13 @@ type Store interface {
 	Update(key string, value string) (Entry, error)
 }
 
-// PWBookStore is an instance of Store
-type PWBookStore struct {
+// LocalStore is an instance of Store that is using Local filesystem
+type LocalStore struct {
 	db *storm.DB
 }
 
 // Create an entry and save it to store
-func (s *PWBookStore) Create(key string, value string) (Entry, error) {
+func (s *LocalStore) Create(key string, value string) (Entry, error) {
 	entry := Entry{}
 
 	if err := s.db.One("Key", key, &entry); err == nil {
@@ -40,7 +40,7 @@ func (s *PWBookStore) Create(key string, value string) (Entry, error) {
 }
 
 // Update an entry's value
-func (s *PWBookStore) Update(key string, value string) (Entry, error) {
+func (s *LocalStore) Update(key string, value string) (Entry, error) {
 	entry := Entry{Key: key, Value: value, ModifiedAt: time.Now()}
 	err := s.db.Update(&entry)
 
@@ -48,7 +48,7 @@ func (s *PWBookStore) Update(key string, value string) (Entry, error) {
 }
 
 // List all stored entries
-func (s *PWBookStore) List() ([]Entry, error) {
+func (s *LocalStore) List() ([]Entry, error) {
 	var entries []Entry
 
 	err := s.db.All(&entries)
@@ -57,7 +57,7 @@ func (s *PWBookStore) List() ([]Entry, error) {
 }
 
 // Remove an entry from the store
-func (s *PWBookStore) Remove(key string) error {
+func (s *LocalStore) Remove(key string) error {
 	entry := Entry{Key: key}
 
 	err := s.db.DeleteStruct(&entry)
@@ -66,13 +66,13 @@ func (s *PWBookStore) Remove(key string) error {
 }
 
 // Close internalDB
-func (s *PWBookStore) Close() error {
+func (s *LocalStore) Close() error {
 	return s.db.Close()
 }
 
 // NewPWBookStore initialize a store with given filepath
-func NewPWBookStore(path string) (PWBookStore, error) {
-	s := PWBookStore{}
+func NewPWBookStore(path string) (*LocalStore, error) {
+	s := &LocalStore{}
 
 	db, err := storm.Open(path)
 	if err != nil {

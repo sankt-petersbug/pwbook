@@ -42,8 +42,8 @@ func TestNewRemoveCommandErrors(t *testing.T) {
 			var buf bytes.Buffer
 
 			ctx := pwbook.Context{
-				Store: &FakeStore{RemoveFunc: tc.removeFunc}, 
-				Output: &buf,
+				Store:    &FakeStore{RemoveFunc: tc.removeFunc},
+				Output:   &buf,
 				Location: nil,
 			}
 
@@ -92,8 +92,8 @@ Name: Entry
 			var buf bytes.Buffer
 
 			ctx := pwbook.Context{
-				Store: &FakeStore{RemoveFunc: tc.removeFunc}, 
-				Output: &buf,
+				Store:    &FakeStore{RemoveFunc: tc.removeFunc},
+				Output:   &buf,
 				Location: nil,
 			}
 

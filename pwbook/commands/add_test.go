@@ -42,8 +42,8 @@ func TestNewAddCommandErrors(t *testing.T) {
 			var buf bytes.Buffer
 
 			ctx := pwbook.Context{
-				Store: &FakeStore{CreateFunc: tc.createFunc}, 
-				Output: &buf,
+				Store:    &FakeStore{CreateFunc: tc.createFunc},
+				Output:   &buf,
 				Location: nil,
 			}
 
@@ -95,8 +95,8 @@ Created At: 01 Jan 18 01:00 UTC
 			var buf bytes.Buffer
 
 			ctx := pwbook.Context{
-				Store: &FakeStore{CreateFunc: tc.createFunc}, 
-				Output: &buf,
+				Store:    &FakeStore{CreateFunc: tc.createFunc},
+				Output:   &buf,
 				Location: time.UTC,
 			}
 

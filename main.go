@@ -1,15 +1,15 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
-	"time"
 	"os"
 	"path/filepath"
-	"bytes"
+	"time"
 
 	homedir "github.com/mitchellh/go-homedir"
-	"github.com/sankt-petersbug/pwbook/pwbook/commands"
 	"github.com/sankt-petersbug/pwbook/pwbook"
+	"github.com/sankt-petersbug/pwbook/pwbook/commands"
 )
 
 func makeBaseDir() string {
@@ -47,11 +47,11 @@ func main() {
 	}
 
 	ctx := pwbook.Context{
-		Store: &s,
-		Output: &buf,
+		Store:    s,
+		Output:   &buf,
 		Location: loc,
 	}
-	commands.NewPWBookCommand(ctx).Execute();
+	commands.NewPWBookCommand(ctx).Execute()
 
 	if output := buf.String(); output != "" {
 		fmt.Print(output)
