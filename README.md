@@ -9,7 +9,7 @@ PWBook is a command line tool for managing passwords.
 To start using PWBook, install Go and run `go get`:
 
 ```sh
-$ go get github.com/sankt-petersbug/pwbook/cmd/pwbook
+$ go get github.com/sankt-petersbug/pwbook
 ```
 
 This will retrieve the library and install the `pwbook` command line utility into
@@ -80,3 +80,4 @@ $ pwbook remove "Entry name"
 - tag or groups
 - encryption with master password
 - security questions
+
