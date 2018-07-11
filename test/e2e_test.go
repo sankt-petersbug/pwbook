@@ -1,4 +1,4 @@
-package pwbook
+package test
 
 import (
 	"os/exec"

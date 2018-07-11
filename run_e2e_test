@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-set -eu -o pipefail
-
-docker run --rm -it -v "$PWD":/go/src/github.com/sankt-petersbug/pwbook:ro -w /go/src/github.com/sankt-petersbug/pwbook golang make test-e2e
