@@ -80,8 +80,8 @@ Total 0 entries
 			args: []string{},
 			listFunc: func() ([]pwbook.Entry, error) {
 				entries := []pwbook.Entry{
-					pwbook.Entry{"short_key", "short_value", now, now},
-					pwbook.Entry{"this_is_long_key", "This_is_long_pw", now, now},
+					{"short_key", "short_value", now, now},
+					{"this_is_long_key", "This_is_long_pw", now, now},
 				}
 
 				return entries, nil
