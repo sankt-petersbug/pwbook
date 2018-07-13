@@ -20,7 +20,7 @@ Total {{.Data | len}} entries
 func NewListCommand(ctx pwbook.Context) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list",
-		Short: "List avilable entries",
+		Short: "List available entries",
 		Args:  cobra.NoArgs,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			entries, err := ctx.Store.List()
